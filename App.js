@@ -5,6 +5,9 @@ import Welcome from './src/screens/Welcome';
 import Login from './src/screens/Login';
 import Dashboard from './src/screens/Dashboard';
 import { Image } from 'react-native';
+import Toast from 'react-native-toast-message';
+import Receipts from './src/screens/Receipts';
+import Map from './src/screens/Map';
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -22,12 +25,12 @@ function HomeScreen() {
       />
       <Tab.Screen 
         name='map' 
-        component={Dashboard} 
+        component={Map} 
         options={{tabBarIcon: () => <Image source={require('./assets/map.png')} />}} 
       />
       <Tab.Screen 
         name='report'   
-        component={Dashboard}
+        component={Receipts}
         options={{tabBarIcon: () => <Image source={require('./assets/receipt.png')} />}} 
       />
     </Tab.Navigator>
@@ -42,6 +45,7 @@ export default function App() {
         <Stack.Screen component={Login} name='login' options={{headerShown:false}} />
         <Stack.Screen component={HomeScreen} name='dashboard' options={{headerShown:false}} />
       </Stack.Navigator>
+      <Toast />
     </NavigationContainer>
   );
 }

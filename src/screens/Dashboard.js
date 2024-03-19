@@ -1,12 +1,32 @@
-import React from 'react'
-import { View, Text, SafeAreaView, TextInput, Pressable, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { 
+    View, Text, SafeAreaView, TextInput, Pressable, Image, ScrollView, 
+} from 'react-native'
+import List from '../components/List'
+import { userDetails } from '../components/Request'
 
 const Dashboard = () => {
+    const [username, setUsername] = useState(null)
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const data = await userDetails();
+                setUsername(data.data.name);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        getData()
+    }, [])
+
+
   return (
     <SafeAreaView>
         <View className="mt-6 mx-5">
             <View>
-                <Text className="font-medium text-lg">Hi Username,</Text>
+                <Text className="font-medium text-lg">Hi {username},</Text>
                 <Text className="mt-1 text-base">Track and monitor your packages</Text>
             </View>
             <View className="bg-[#4CA7A8] p-5 rounded-lg mt-5">
@@ -31,7 +51,10 @@ const Dashboard = () => {
             </View>
             <View className="flex-row justify-between items-center mt-6">
                 <Text className="font-bold text-base">Latest Orders</Text>
-                <Text className="text-green-500 font-bold">See All</Text>
+                <Text className="text-[#00635C] font-bold text-sm">See All</Text>
+            </View>
+            <View>
+                <List />
             </View>
         </View>
     </SafeAreaView>

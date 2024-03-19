@@ -1,23 +1,55 @@
 import React, { useState } from 'react'
-import { Image, Text, TextInput, View, SafeAreaView, TouchableOpacity, Pressable } from 'react-native'
+import { 
+    Image, Text, TextInput, View, SafeAreaView, TouchableOpacity, Pressable, ActivityIndicator, 
+} from 'react-native'
 import axios from 'axios'
+import Toast from 'react-native-toast-message'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [visible, setVisibility] = useState(false);
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null);
+
+    const handleShow = () => {
+        setVisibility(!visible);
+    };
 
     const handleSubmit = async () => {
+        setLoading(true)
+        setError(null)
         try {
           const response = await axios.post('https://coding.zippy.com.gh/api/login', { email, password });
-          if (response.responseCode === 200) {
-            console.warn(response.responseDesc)
-        //    Toast.success(response.responseDesc)
+          if (response.data.responseCode === "002") {
+            const accessToken = response.data.accessToken;
+            // const username = response.data.data.name
+            await AsyncStorage.setItem('token', accessToken)
+            // await AsyncStorage.setItem('name', username)
+           Toast.show({
+            type:'success',
+            text1: response.data.responseDesc
+           })
            navigation.navigate('dashboard')
           }
         } catch (error) {
-            console.warn(error.response.responseDesc)
-            // Toast.error(error.response.responseDesc);  
+            if (error.response.data.responseCode === "003") {
+                // console.warn(error.response.data.responseDesc)
+                setError(error.response.data.responseDesc)
+                Toast.show({
+                    type:'error',
+                    text1:error.response.data.responseDesc
+                })
+            } else {
+                Toast.show({
+                    type:'error',
+                    text1: "Sorry! You provided incorrect login details.",
+                    text2: "Please check and try again"
+                })
+            }   
         } finally {
+            setLoading(false)
             setEmail('')
             setPassword('')
         }
@@ -25,7 +57,6 @@ const Login = ({ navigation }) => {
 
   return (
     <View className="flex-1">
-        <ToastManager />
         <SafeAreaView className="flex">
             <View className="flex-row justify-center mt-32">
                 <Image source={require('../../assets/logo.png')}  />
@@ -62,13 +93,15 @@ const Login = ({ navigation }) => {
                     <View className="relative">
                         <TextInput
                             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white'
-                            required 
                             placeholder='Your Password' 
                             value={password}
                             onChangeText={(text) => setPassword(text)} 
-                            secureTextEntry={true}
+                            secureTextEntry={!visible}
                         />
-                        <TouchableOpacity className="absolute inset-y-0 right-0 flex-1 items-center p-2.5">
+                        <TouchableOpacity 
+                            className="absolute inset-y-0 right-0 flex-1 items-center p-2.5"
+                            onPress={handleShow}
+                        >
                             <Image source={require('../../assets/eye.png')} />
                         </TouchableOpacity>
                     </View>
@@ -78,12 +111,14 @@ const Login = ({ navigation }) => {
                 </View>
                 
                 <View className="mt-10">
+                    {/* {loading && <ActivityIndicator size={'large'} color={'blue'} />} */}
                     <Pressable 
                         onPress={handleSubmit} 
                         className="items-center justify-center focus:outline-none text-white bg-[#4CA7A8] focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
                     >
-                        <Text>Login</Text>
+                        {loading ? <ActivityIndicator size={'large'} color={'blue'} /> : <Text>Login</Text>}
                     </Pressable>
+                    {error && <Text>{error}</Text>}
                 </View>
             </View>
         </View>
