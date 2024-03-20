@@ -33,7 +33,6 @@ const Login = ({ navigation }) => {
           }
         } catch (error) {
             if (error.response.data.responseCode === "003") {
-                // console.warn(error.response.data.responseDesc)
                 setError(error.response.data.responseDesc)
                 Toast.show({
                     type:'error',
@@ -109,7 +108,6 @@ const Login = ({ navigation }) => {
                 </View>
                 
                 <View className="mt-10">
-                    {/* {loading && <ActivityIndicator size={'large'} color={'blue'} />} */}
                     <Pressable 
                         onPress={handleSubmit} 
                         className="items-center justify-center focus:outline-none text-white bg-[#4CA7A8] focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
