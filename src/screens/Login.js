@@ -24,9 +24,7 @@ const Login = ({ navigation }) => {
           const response = await axios.post('https://coding.zippy.com.gh/api/login', { email, password });
           if (response.data.responseCode === "002") {
             const accessToken = response.data.accessToken;
-            // const username = response.data.data.name
             await AsyncStorage.setItem('token', accessToken)
-            // await AsyncStorage.setItem('name', username)
            Toast.show({
             type:'success',
             text1: response.data.responseDesc
