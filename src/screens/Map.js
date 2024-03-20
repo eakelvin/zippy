@@ -3,7 +3,7 @@ import { SafeAreaView, Text } from 'react-native'
 
 const Map = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1 justify-center items-center">
         <Text>Maps Screen</Text>
     </SafeAreaView>
   )

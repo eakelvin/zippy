@@ -76,7 +76,7 @@ const Login = ({ navigation }) => {
                     <View className="relative w-full">
                         <TextInput
                             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white' 
-                            required 
+                            autoCapitalize="none"
                             placeholder='Your email' 
                             value={email}
                             onChangeText={(text) => setEmail(text)} 

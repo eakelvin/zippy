@@ -27,9 +27,13 @@ const Dashboard = () => {
         <View className="mt-6 mx-5">
             <View>
                 <Text className="font-medium text-lg">Hi {username},</Text>
-                <Text className="mt-1 text-base">Track and monitor your packages</Text>
+                <Text className="text-base">Track and monitor your packages</Text>
             </View>
-            <View className="bg-[#4CA7A8] p-5 rounded-lg mt-5">
+            <View className="relative bg-[#4CA7A8] p-5 rounded-lg mt-5">
+                <Image
+                    source={require("../../assets/vector.png")}
+                    className="absolute top-0 right-0"
+                />
                 <Text className="font-medium text-xl text-white">Track your parcel</Text>
                 <Text className="mt-2 text-white">Enter your parcel tracking number</Text>
                 <View className="flex-row mt-5">
@@ -50,7 +54,7 @@ const Dashboard = () => {
                 </View> 
             </View>
             <View className="flex-row justify-between items-center mt-6">
-                <Text className="font-bold text-base">Latest Orders</Text>
+                <Text className="font-bold text-lg">Latest Orders</Text>
                 <Text className="text-[#00635C] font-bold text-sm">See All</Text>
             </View>
             <View>
