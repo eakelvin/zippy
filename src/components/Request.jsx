@@ -11,7 +11,7 @@ export const userDetails = async () => {
         // console.warn(data)
         return data
     } catch (error) {
-        console.warn(error)
+        console.error(error)
     }
 }
 
@@ -24,19 +24,20 @@ export const allOrders = async () => {
         // console.warn(data)
         return data
     } catch (error) {
-        console.warn(error)
+        console.error(error)
     }
 }
 
-export const orderDetails = async () => {
+export const orderDetails = async (orderId) => {
     try {
         const token = await AsyncStorage.getItem('token')
-        const {data} = await axios.get("https://coding.zippy.com.gh/api/get_order_details",
+        const {data} = await axios.get(
+            `https://coding.zippy.com.gh/api/get_order_details?orderId=${orderId}`,
             { headers: {Authorization: `Bearer ${token}`}} 
         )
         return data
     } catch (error) {
-        console.warn(error)
+        console.error(error)
     }
 }
 
@@ -48,6 +49,6 @@ export const orderStatuses = async () => {
         )
         return data
     } catch (error) {
-        console.warn(error)
+        console.error(error)
     }
 }

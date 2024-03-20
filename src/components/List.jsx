@@ -10,7 +10,6 @@ const List = () => {
         const fetchData = async () => {
             try {
                 const response = await allOrders();
-                // console.warn("All Orders:", response.data)
                 setOrders(response.data);
                 setLoading(false);
             } catch (error) {
@@ -57,6 +56,10 @@ const List = () => {
     
   return (
     <View>
+        <View className="flex-row justify-between items-center mt-6">
+                <Text className="font-bold text-lg">Latest Orders</Text>
+                <Text className="text-[#00635C] font-bold text-sm">See All</Text>
+        </View>
         {loading ? 
             (<ActivityIndicator size={'large'} color={'blue'} /> )
         :  
